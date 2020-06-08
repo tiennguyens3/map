@@ -1,0 +1,26 @@
+#svg-container {
+  height: 100%;
+  width: 100%;
+}
+
+svg {
+  display: inline;
+  width: inherit;
+  height: inherit;
+  min-width: inherit;
+  max-width: inherit;
+  min-height: inherit;
+  max-height: inherit;
+}
+
+polyline[type="female"] {
+  fill: crimson;
+}
+
+polyline[type="male"] {
+  fill: darkgoldenrod;
+}
+
+polyline[type="kid"] {
+  fill: darkgreen;
+}
