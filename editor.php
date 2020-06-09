@@ -1,5 +1,19 @@
 <?php
 
+include 'config.php';
+
+try {
+    $dbh = new PDO($dsn, $user, $password);
+
+    $sql = "select id_nguoimat, tennguoimat from nguoimat";
+    $result = [];
+    foreach ($dbh->query($sql) as $value) {
+      $result[$value['id_nguoimat']] = [$value['id_nguoimat'], $value['tennguoimat']];
+    }
+} catch (PDOException $e) {
+    echo 'Connection failed: ' . $e->getMessage();
+}
+
 if (isset($_POST['content'])) {
   $content = $_POST['content'];
 
@@ -19,8 +33,9 @@ if (isset($_POST['content'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Editor</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
+  <link href="css/bootstrap-select.min.css" rel="stylesheet" />
 </head>
 
 <body class="page-home">
@@ -54,30 +69,34 @@ if (isset($_POST['content'])) {
           </button>
         </div>
         <div class="modal-body">
-       
+
         <div class="form-group">
-          <input type="text" class="form-control" id="idInput" placeholder="Enter ID">
+          <select id="selectpicker" class="form-control selectpicker" data-live-search="true">
+            <?php 
+              foreach ($result as $value) {
+                echo "<option data-id=".$value[0]." data-name='".$value[1]."'>" . implode(", ", $value) . "</option>";
+              }
+            ?>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <input type="hidden" class="form-control" id="idInput" placeholder="Enter ID">
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" id="nameInput" placeholder="Enter Name">
+          <input type="hidden" class="form-control" id="nameInput" placeholder="Enter Name">
         </div>
         
           <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" class="custom-control-input" name="typeInput" id="maleInput" value="male">
+            <input type="radio" class="custom-control-input" name="typeInput" id="maleInput" value="male" checked="checked">
             <label class="custom-control-label" for="maleInput">Male</label>
           </div>
 
-          
           <div class="custom-control custom-radio custom-control-inline">
             <input type="radio" class="custom-control-input" name="typeInput" id="feMaleInput" value="female">
             <label class="custom-control-label" for="feMaleInput">Female</label>
           </div>
 
-          
-          <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" class="custom-control-input" name="typeInput" id="kidInput" value="kid">
-            <label class="custom-control-label" for="kidInput">Kid</label>
-          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -87,10 +106,12 @@ if (isset($_POST['content'])) {
     </div>
   </div>
 
-  <script src="https://ariutta.github.io/svg-pan-zoom/dist/svg-pan-zoom.js"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="js/svg-pan-zoom.js"></script>
+  <script src="js/jquery-3.5.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/bootstrap-select.min.js"></script>
+  
   <script>
     $(function () {
       svgPanZoom('#svg-container svg', {
@@ -100,30 +121,58 @@ if (isset($_POST['content'])) {
         center: true,
         minZoom: 0.1
       });
-    })
 
-    var polyline = null;
-    $('polyline').click(function() {
-      polyline = $(this);
-      $('#editorModal').modal('show');
-    });
+      var polyline = null;
+      $('polyline').click(function() {
+        polyline = $(this);
 
-    $('#saveChanges').click(function() {
-      polyline.attr('id', $('#idInput').val());
-      polyline.attr('name', $('#nameInput').val());
-      polyline.attr('type', $('input[name="typeInput"]:checked').val());
+        if (polyline.attr('id')) {
+          $('#idInput').val(polyline.attr('id'));
+          $('option[data-id="'+ polyline.attr('id') +'"]').attr('selected', true);
+        }
 
-      $('#idInput').val("");
-      $('#nameInput').val("");
+        if (polyline.attr('type')) {
+          $('input[name="typeInput"][value="'+polyline.attr('type')+'"]').attr('checked', true);
+        }
 
-      $('#editorModal').modal('hide');
-    });
+        $('.selectpicker').selectpicker('refresh');
+        $('#editorModal').modal('show');
+      });
 
-    $('#saveBtn').click(function(event) {
-      event.preventDefault();
-      $('#content').val($('#svg-container').html());
+      $('#saveChanges').click(function() {
+        var id = $('.selectpicker :selected').data('id');
+        var name = $('.selectpicker :selected').data('name');
 
-      $('form').submit();
+        polyline.attr('id', id);
+        polyline.attr('name', name);
+        polyline.attr('type', $('input[name="typeInput"]:checked').val());
+
+        polyline.append("<title>" + name + "</title>");
+
+        $('#idInput').val("");
+        $('#nameInput').val("");
+
+        $('.selectpicker :selected').attr('disabled', true);
+        $('.selectpicker').selectpicker('refresh');
+
+        $('#editorModal').modal('hide');
+      });
+
+      $('#saveBtn').click(function(event) {
+        event.preventDefault();
+
+        var svg = $('#svg-container').clone();
+        svg.find('#svg-pan-zoom-controls').remove();
+        $('#content').val(svg.html());
+
+        $('form').submit();
+      });
+
+      $('g[fill="white"] polyline[id]').each(function() {
+        $('option[data-id="'+ $(this).attr('id') +'"]').attr('disabled', true);
+      });
+
+      $('.selectpicker').selectpicker();
     });
 
   </script>

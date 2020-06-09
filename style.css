@@ -14,13 +14,17 @@ svg {
 }
 
 polyline[type="female"] {
-  fill: crimson;
+  fill: red;
 }
 
 polyline[type="male"] {
-  fill: darkgoldenrod;
+  fill: yellow;
 }
 
 polyline[type="kid"] {
-  fill: darkgreen;
+  fill: green;
+}
+
+g[fill="white"] polyline:hover {
+  fill: red;
 }
