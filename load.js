@@ -15,7 +15,6 @@ $(function () {
     contain: false
   });
 
-  
   $('#btnSearch').click(function(event) {
     event.preventDefault();
 
@@ -48,5 +47,19 @@ $(function () {
 
     panZoomTiger.pan({x: x, y: y});
     panZoomTiger.zoomAtPoint(3, {x: 512, y: 400});
+
+    // Show information
+    $.ajax({
+      url: 'info.php',
+      type: 'post',
+      data: {'id': polyline.attr('id')},
+      success: function(data) {
+        if ('NO' == data) {
+          return false;
+        }
+        $('#groupData').html(data);
+        $('#infoModal').modal('show');
+      }
+    });
   });
 });

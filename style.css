@@ -32,5 +32,10 @@ g[fill="white"] polyline:hover {
 
 .selected {
   stroke-width: 2px;
-  stroke: blue
+  stroke: blue;
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {  
+  50% { opacity: 0; }
 }

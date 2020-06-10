@@ -27,10 +27,11 @@ $(function () {
   $('#saveChanges').click(function() {
     var id = $('.selectpicker :selected').data('id');
     var name = $('.selectpicker :selected').data('name');
+    var type = $('input[name="typeInput"]:checked').val();
 
     polyline.attr('id', id);
     polyline.attr('name', name);
-    polyline.attr('type', $('input[name="typeInput"]:checked').val());
+    polyline.attr('type', type);
 
     polyline.append("<title>" + name + "</title>");
 
@@ -41,6 +42,15 @@ $(function () {
     $('.selectpicker').selectpicker('refresh');
 
     $('#editorModal').modal('hide');
+
+    $.ajax({
+      url: 'update.php',
+      type: 'post',
+      data: {id: id, male: type},
+      success: function(data) {
+        console.log(data);
+      }
+    });
   });
 
   $('#saveBtn').click(function(event) {
