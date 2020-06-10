@@ -4,7 +4,7 @@ $(function () {
     controlIconsEnabled: true,
     fit: true,
     center: true,
-    minZoom: 0.1
+    minZoom: 0.5
   });
 
   var polyline = null;
@@ -46,9 +46,10 @@ $(function () {
   $('#saveBtn').click(function(event) {
     event.preventDefault();
 
-    var svg = $('#svg-container').clone();
-    svg.find('#svg-pan-zoom-controls').remove();
-    $('#content').val(svg.html());
+    var container = $('<div><svg viewBox="0 0 800 600" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" stroke-linecap="round" stroke-linejoin="round" fill-rule="evenodd" xml:space="preserve"></svg></div>');
+    container.find('svg').append($('.svg-pan-zoom_viewport').html());
+
+    $('#content').val(container.html());
 
     $('form').submit();
   });

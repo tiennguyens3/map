@@ -19,16 +19,17 @@ $(function () {
   $('#btnSearch').click(function(event) {
     event.preventDefault();
 
-    if (polyline) {
-      panZoomTiger.reset();
-      polyline.removeClass('selected');
+    // Reset
+    panZoomTiger.reset();
 
+    if (polyline) {
+      polyline.removeClass('selected');
       polyline = null;
     }
 
     var name = $('#txtName').val();
     if (!name) {
-      return;
+      return false;
     }
 
     polyline = $("polyline:contains('"+$('#txtName').val()+"')");
@@ -39,13 +40,13 @@ $(function () {
     polyline.addClass('selected');
 
     var point = polyline.attr('points').split(" ", 1)[0].split(",");
-console.log(point);
+    var a = Math.round(point[0]) + 50;
+    var b = Math.round(point[1]) + 150;
 
-    point[0] = Math.round(point[0]) + 200;
-    point[1] = Math.round(point[1]) + 200;
+    var x = 512 - a;
+    var y = 400 - b - 16;
 
-    var offset = polyline.offset();
-
-    panZoomTiger.zoomAtPoint(3, {x: point[0], y: point[1]});
+    panZoomTiger.pan({x: x, y: y});
+    panZoomTiger.zoomAtPoint(3, {x: 512, y: 400});
   });
 });

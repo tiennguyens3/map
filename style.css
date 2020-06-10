@@ -1,6 +1,7 @@
 #svg-container {
-  height: 100%;
-  width: 100%;
+  width: 1024px;
+  height: 800px;
+  margin: auto;
 }
 
 svg {
