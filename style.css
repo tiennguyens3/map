@@ -28,3 +28,8 @@ polyline[type="kid"] {
 g[fill="white"] polyline:hover {
   fill: red;
 }
+
+.selected {
+  stroke-width: 2px;
+  stroke: blue
+}
