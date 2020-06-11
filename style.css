@@ -30,7 +30,7 @@ g[fill="white"] polyline:hover {
   fill: red;
 }
 
-.selected {
+.plot-selected {
   stroke-width: 2px;
   stroke: blue;
   animation: blinker 1s linear infinite;
