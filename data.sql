@@ -11,6 +11,17 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
+-- Dumping structure for table hoavien_data.khuvuc
+DROP TABLE IF EXISTS `khuvuc`;
+CREATE TABLE IF NOT EXISTS `khuvuc` (
+  `id_khu` int(11) NOT NULL AUTO_INCREMENT,
+  `tenkhu` varchar(255) NOT NULL,
+  `sohang` int(50) NOT NULL,
+  `hinhanh_khu` varchar(100) NOT NULL,
+  `thutu_khu` int(11) NOT NULL,
+  PRIMARY KEY (`id_khu`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+
 -- Dumping data for table hoavien_data.khuvuc: ~13 rows (approximately)
 DELETE FROM `khuvuc`;
 /*!40000 ALTER TABLE `khuvuc` DISABLE KEYS */;
@@ -30,7 +41,28 @@ INSERT INTO `khuvuc` (`id_khu`, `tenkhu`, `sohang`, `hinhanh_khu`, `thutu_khu`) 
 	(20, 'Khu L', 6, '', 12);
 /*!40000 ALTER TABLE `khuvuc` ENABLE KEYS */;
 
--- Dumping data for table hoavien_data.nguoimat: ~2,125 rows (approximately)
+-- Dumping structure for table hoavien_data.nguoimat
+DROP TABLE IF EXISTS `nguoimat`;
+CREATE TABLE IF NOT EXISTS `nguoimat` (
+  `id_nguoimat` int(11) NOT NULL AUTO_INCREMENT,
+  `tennguoimat` varchar(255) NOT NULL,
+  `maso` varchar(100) NOT NULL,
+  `hinhanh` varchar(255) NOT NULL,
+  `quequan` varchar(255) NOT NULL,
+  `tenthanh` varchar(255) NOT NULL,
+  `namsinh` varchar(100) NOT NULL,
+  `nammat` varchar(100) NOT NULL,
+  `ngaycaitang` varchar(200) NOT NULL,
+  `khuvuc` int(11) NOT NULL,
+  `hang_khuvuc` int(100) NOT NULL,
+  `thutu_nguoimat` int(11) NOT NULL,
+  `ghichu` text NOT NULL,
+  `tinhtrang_mo` int(11) NOT NULL DEFAULT '0',
+  `gioitinh` tinyint(4) DEFAULT '1',
+  PRIMARY KEY (`id_nguoimat`)
+) ENGINE=InnoDB AUTO_INCREMENT=2185 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table hoavien_data.nguoimat: ~2,145 rows (approximately)
 DELETE FROM `nguoimat`;
 /*!40000 ALTER TABLE `nguoimat` DISABLE KEYS */;
 INSERT INTO `nguoimat` (`id_nguoimat`, `tennguoimat`, `maso`, `hinhanh`, `quequan`, `tenthanh`, `namsinh`, `nammat`, `ngaycaitang`, `khuvuc`, `hang_khuvuc`, `thutu_nguoimat`, `ghichu`, `tinhtrang_mo`, `gioitinh`) VALUES
