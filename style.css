@@ -22,8 +22,8 @@ rect[type="female"] {
   fill: green;
 }
 
-g[fill="white"] polyline:hover {
-  fill: red;
+rect:hover {
+  fill: blue;
 }
 
 .plot-selected {
