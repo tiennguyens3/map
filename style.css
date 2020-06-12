@@ -35,3 +35,7 @@ g[fill="white"] polyline:hover {
 @keyframes blinker {  
   50% { opacity: 0; }
 }
+
+#detailBody {
+  width: 465px;
+}
