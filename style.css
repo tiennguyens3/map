@@ -14,15 +14,11 @@ svg {
   max-height: inherit;
 }
 
-polyline[type="female"] {
+rect[type="male"] {
   fill: red;
 }
 
-polyline[type="male"] {
-  fill: yellow;
-}
-
-polyline[type="kid"] {
+rect[type="female"] {
   fill: green;
 }
 

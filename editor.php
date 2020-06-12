@@ -5,10 +5,16 @@ include 'config.php';
 try {
     $dbh = new PDO($dsn, $user, $password);
 
-    $sql = "select id_nguoimat, tennguoimat from nguoimat";
+    $sql = "select id_nguoimat, khuvuc, hang_khuvuc, thutu_nguoimat, tennguoimat from nguoimat";
     $result = [];
     foreach ($dbh->query($sql) as $value) {
-      $result[$value['id_nguoimat']] = [$value['id_nguoimat'], $value['tennguoimat']];
+      $result[$value['id_nguoimat']] = [
+        $value['id_nguoimat'], 
+        $value['tennguoimat'],
+        $value['khuvuc'],
+        $value['hang_khuvuc'],
+        $value['thutu_nguoimat'],
+      ];
     }
 } catch (PDOException $e) {
     echo 'Connection failed: ' . $e->getMessage();
@@ -50,7 +56,7 @@ if (isset($_POST['content'])) {
   <div class="container-fluid">
     <div id="svg-container" class="row">
       <?php 
-        $fileName = 'original.svg';
+        $fileName = 'new.svg';
         if (file_exists('destination.svg')) {
           $fileName = 'destination.svg';
         }
@@ -74,7 +80,8 @@ if (isset($_POST['content'])) {
           <select id="selectpicker" class="form-control selectpicker" data-live-search="true">
             <?php 
               foreach ($result as $value) {
-                echo "<option data-id=".$value[0]." data-name='".$value[1]."'>" . implode(", ", $value) . "</option>";
+                $text = "Khu vực: " . $value[2] . "- Hàng: " . $value[3] . "- STT: " . $value[4] . ", " . $value[1];
+                echo "<option data-id=".$value[0]." data-name='".$value[1]."'>" . $text . "</option>";
               }
             ?>
           </select>
@@ -111,6 +118,7 @@ if (isset($_POST['content'])) {
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/bootstrap-select.min.js"></script>
+  <script src="js/hammer.js"></script>
   <script src="editor.js"></script>
 </body>
 

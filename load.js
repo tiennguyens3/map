@@ -88,22 +88,18 @@ $(function () {
       return false;
     }
 
-    polyline = $("polyline:contains('"+$('#txtName').val()+"')");
-    if (!polyline) {
+    polyline = $("rect:contains('"+$('#txtName').val()+"')");
+    if (!polyline.length) {
       return false;
     }
 
     polyline.addClass('plot-selected');
 
-    var point = polyline.attr('points').split(" ", 1)[0].split(",");
-    var a = Math.round(point[0]) + 50;
-    var b = Math.round(point[1]) + 150;
+    var x = polyline.attr('x');
+    var y = polyline.attr('y');
 
-    var x = 512 - a;
-    var y = 400 - b - 16;
-
-    panZoomTiger.pan({x: x, y: y});
-    panZoomTiger.zoomAtPoint(3, {x: 512, y: 400});
+    //panZoomTiger.pan({x: x, y: y});
+    panZoomTiger.zoomAtPoint(3, {x: x, y: y});
 
     // Show information
     $.ajax({
@@ -116,6 +112,28 @@ $(function () {
         }
         $('#groupData').html(data);
         $('#infoModal').modal('show');
+      }
+    });
+  });
+
+  var rect = null;
+  $('#Layer_1').find('rect').click(function() {
+    rect = $(this);
+    if (!rect.attr('id')) {
+      return false;
+    }
+
+    // Show information
+    $.ajax({
+      url: 'detail.php',
+      type: 'post',
+      data: {'id': rect.attr('id')},
+      success: function(data) {
+        if ('NO' == data) {
+          return false;
+        }
+        $('#detailBody').html(data);
+        $('#biaModal').modal('show');
       }
     });
   });
