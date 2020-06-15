@@ -20,7 +20,7 @@
   <div class="container-fluid">
     <div id="svg-container" class="row">
       <?php 
-        $fileName = 'new.svg';
+        $fileName = 'pdfsvg.svg';
         if (file_exists('destination.svg')) {
           $fileName = 'destination.svg';
         }
