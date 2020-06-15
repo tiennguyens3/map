@@ -65,7 +65,7 @@ $(function () {
   });
 
   var polyline = null;
-  $('#Layer_1').find('rect').click(function() {
+  $('#Layer_1').find('rect:not(".svg-pan-zoom-control-background")').click(function() {
     polyline = $(this);
 
     if (polyline.attr('id')) {
@@ -105,7 +105,8 @@ $(function () {
       type: 'post',
       data: {id: id, male: type},
       success: function(data) {
-        console.log(data);
+        var parent = polyline.parent();
+        parent.find('text').css('font-size', '5px').html(data);
       }
     });
   });

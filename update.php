@@ -12,8 +12,27 @@ try {
     $sth = $dbh->prepare($sql);
     $sth->execute(array(':id' => $id, ':gioitinh' => $isMale));
 
-    echo $sth->rowCount();
+    $sql = "select * from nguoimat where id_nguoimat=:id";
+
+    $sth = $dbh->prepare($sql);
+    $sth->execute(array(':id' => $id));
+    $result = $sth->fetch();
 
 } catch (PDOException $e) {
     echo 'NO';
 }
+
+if (isset($result)) {
+?>
+
+<tspan x="0" dy=".6em"><?php echo $result['tenthanh']; ?></tspan>
+<tspan x="0" dy="1.2em"><?php echo $result['tennguoimat']; ?></tspan>
+<tspan x="0" dy="1.2em"><?php echo 'Mỹ Dụ'; ?></tspan>
+<tspan x="0" dy="1.2em"><?php echo $result['namsinh']; ?></tspan>
+<tspan x="0" dy="1.2em"><?php echo $result['quequan']; ?></tspan>
+
+<?php
+
+}
+
+?>
