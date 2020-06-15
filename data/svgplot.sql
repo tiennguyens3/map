@@ -1,0 +1,10 @@
+CREATE TABLE `svgplot` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`userId` INT(11) NOT NULL,
+	`svg` TEXT NOT NULL,
+	PRIMARY KEY (`id`)
+)
+COLLATE='utf8_bin'
+ENGINE=InnoDB
+AUTO_INCREMENT=1
+;

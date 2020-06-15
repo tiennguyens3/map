@@ -103,10 +103,10 @@ $(function () {
     $.ajax({
       url: 'update.php',
       type: 'post',
-      data: {id: id, male: type},
+      data: {id: id, male: type, svg: polyline.parent()[0].outerHTML},
       success: function(data) {
         var parent = polyline.parent();
-        parent.find('text').css('font-size', '5px').html(data);
+        parent.find('text').css('font-size', '2px').html(data);
       }
     });
   });
