@@ -56,7 +56,7 @@ if (isset($_POST['content'])) {
   <div class="container-fluid">
     <div id="svg-container" class="row">
       <?php 
-        $fileName = 'khuA_alinh-01.svg';
+        $fileName = 'khuA_alinh-02.svg';
         if (file_exists('destination.svg')) {
           $fileName = 'destination.svg';
         }
