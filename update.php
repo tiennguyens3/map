@@ -9,7 +9,6 @@ try {
     $isMale = isset($_POST['male']) && 'male' == $_POST['male'] ? 1 : 0;
 
     $sql = "select * from nguoimat where id_nguoimat=:id";
-
     $sth = $dbh->prepare($sql);
     $sth->execute(array(':id' => $id));
     $result = $sth->fetch();

@@ -65,7 +65,7 @@ $(function () {
   });
 
   var polyline = null;
-  $('#Layer_1').find('rect:not(".svg-pan-zoom-control-background")').click(function() {
+  $('#Khu_A').find('rect:not(".svg-pan-zoom-control-background")').click(function() {
     polyline = $(this);
 
     if (polyline.attr('id')) {
@@ -106,7 +106,7 @@ $(function () {
       data: {id: id, male: type, svg: polyline.parent()[0].outerHTML},
       success: function(data) {
         var parent = polyline.parent();
-        parent.find('text').css('font-size', '2px').html(data);
+        parent.find('text').html(data);
       }
     });
   });
@@ -114,16 +114,16 @@ $(function () {
   $('#saveBtn').click(function(event) {
     event.preventDefault();
 
-    var container = $('<div><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1027.09 918.04"></svg></div>');
-    container.find('svg').append($('#Layer_1').find('defs').first());
+    var container = $('<div><svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1027.09 918.04"></svg></div>');
     container.find('svg').append($('.svg-pan-zoom_viewport'));
+    container.find('svg').append($('defs').first());
 
     $('#content').val(container.html());
 
     $('form').submit();
   });
 
-  $('#Layer_1 rect[id]').each(function() {
+  $('#Khu_A rect[id]').each(function() {
     $('option[data-id="'+ $(this).attr('id') +'"]').attr('disabled', true);
   });
 

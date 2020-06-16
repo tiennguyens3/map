@@ -117,7 +117,7 @@ $(function () {
   });
 
   var rect = null;
-  $('#Layer_1').find('rect').click(function() {
+  $('#Khu_A').find('rect').click(function() {
     rect = $(this);
     if (!rect.attr('id')) {
       return false;
