@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SVG</title>
+  <title>Bản Đồ Đất Thánh Vinh Đức</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/bootstrap-fs-modal.min.css">
   <link rel="stylesheet" href="style.css">
@@ -11,7 +11,7 @@
 
 <body class="page-home">
   <header>
-    <h1 class="text-center">SVG</h1>
+    <h1 class="text-center">Bản Đồ Đất Thánh Vinh Đức</h1>
     <form>
       <input id="txtName" type="text" placeholder="Enter name" />
       <button id="btnSearch" class="btn btn-primary">Search</button>

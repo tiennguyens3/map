@@ -38,7 +38,7 @@ if (isset($_POST['content'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editor</title>
+  <title>Thiết Lập Bản Đồ Đất Thánh Vinh Đức</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link href="css/bootstrap-select.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css">
@@ -46,7 +46,7 @@ if (isset($_POST['content'])) {
 
 <body class="page-home">
   <header>
-    <h1 class="text-center">Editor</h1>
+    <h1 class="text-center">Thiết Lập Bản Đồ Đất Thánh Vinh Đức</h1>
     <form method="post">
       <input type="hidden" id="content" name="content" />
       <button id="saveBtn" class="btn btn-primary">Save</button>
