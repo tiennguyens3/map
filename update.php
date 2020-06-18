@@ -17,8 +17,17 @@ try {
     $sth = $dbh->prepare($sql);
     $sth->execute(array(':id' => $id, ':gioitinh' => $isMale));
 
+    $sql = "select * from svgplot where userId=:id";
+    $sth = $dbh->prepare($sql);
+    $sth->execute(array(':id' => $id));
+    $row = $sth->fetch();
+
     $svg = isset($_POST['svg']) ? $_POST['svg'] : '';
-    $sql = "insert into svgplot(userId, svg) values (:userId, :svg)";
+    if ($row) {
+        $sql = "update svgplot set svg=:svg where userId=:userId";
+    } else {
+        $sql = "insert into svgplot(userId, svg) values (:userId, :svg)";
+    }
     $sth = $dbh->prepare($sql);
     $sth->execute(array(':userId' => $id, ':svg' => $svg));
 

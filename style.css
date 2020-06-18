@@ -19,10 +19,10 @@ rect[type="male"] {
 }
 
 rect[type="female"] {
-  fill: green;
+  fill: blue;
 }
 
-rect:hover {
+rect.st23:hover {
   fill: blue;
 }
 
