@@ -83,7 +83,7 @@ if (file_exists($destinationPath)) {
   <script src="js/fs-modal.min.js"></script>
   <script src="js/ol.js"></script>
   <script type="text/javascript">
-    var svgPath = '<?php echo $svgPath ?>';
+    const svgPath = '<?php echo $svgPath ?>';
   </script>
   <script src="js/load.js"></script>
 </body>

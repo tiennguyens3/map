@@ -25,8 +25,8 @@ $(function () {
   });
   xhr.send();
 
-  const width = 1024;
-  const height = 800;
+  const width = 1920;
+  const height = 1200;
   const svgResolution = 360 / width;
   svgContainer.style.width = width + 'px';
   svgContainer.style.height = height + 'px';

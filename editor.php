@@ -116,10 +116,9 @@ if (file_exists($destinationPath)) {
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/bootstrap-select.min.js"></script>
-  <script src="js/hammer.js"></script>
   <script src="js/ol.js"></script>
   <script type="text/javascript">
-    var svgPath = '<?php echo $svgPath ?>';
+    const svgPath = '<?php echo $svgPath ?>';
   </script>
   <script src="js/editor.js"></script>
 </body>
