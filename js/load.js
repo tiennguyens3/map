@@ -107,7 +107,7 @@ $(function () {
     const y = polyline.attr('y');
 
     const view = map.getView();
-    view.fit([x,y]);
+    //view.fit([x,y]);
 
     // Show information
     $.ajax({
