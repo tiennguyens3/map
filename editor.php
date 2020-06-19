@@ -23,12 +23,17 @@ try {
 if (isset($_POST['content'])) {
   $content = $_POST['content'];
 
-  $fileName = 'destination.svg';
+  $fileName = 'svg/destination.svg';
   if ($content) {
     file_put_contents($fileName, $content);
   } else {
     unlink($fileName);
   }
+}
+
+$svgPath = $defaultPath;
+if (file_exists($destinationPath)) {
+  $svgPath = $destinationPath;
 }
 
 ?>
@@ -41,7 +46,8 @@ if (isset($_POST['content'])) {
   <title>Thiết Lập Bản Đồ Đất Thánh Vinh Đức</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link href="css/bootstrap-select.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css">
+  <link href="css/ol.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" >
 </head>
 
 <body class="page-home">
@@ -55,13 +61,6 @@ if (isset($_POST['content'])) {
   </header>
   <div class="container-fluid">
     <div id="svg-container" class="row">
-      <?php 
-        $fileName = 'A_alinh.svg';
-        if (file_exists('destination.svg')) {
-          $fileName = 'destination.svg';
-        }
-        echo(file_get_contents($fileName));
-      ?>
     </div>
   </div>
 
@@ -113,13 +112,16 @@ if (isset($_POST['content'])) {
     </div>
   </div>
 
-  <script src="js/svg-pan-zoom.js"></script>
   <script src="js/jquery-3.5.1.min.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/bootstrap-select.min.js"></script>
   <script src="js/hammer.js"></script>
-  <script src="editor.js"></script>
+  <script src="js/ol.js"></script>
+  <script type="text/javascript">
+    var svgPath = '<?php echo $svgPath ?>';
+  </script>
+  <script src="js/editor.js"></script>
 </body>
 
 </html>

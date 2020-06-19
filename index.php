@@ -1,3 +1,14 @@
+<?php
+
+include 'config.php';
+
+$svgPath = $defaultPath;
+if (file_exists($destinationPath)) {
+  $svgPath = $destinationPath;
+}
+
+?>
+
 <html lang="en">
 
 <head>
@@ -6,7 +17,8 @@
   <title>Bản Đồ Đất Thánh Vinh Đức</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/bootstrap-fs-modal.min.css">
-  <link rel="stylesheet" href="style.css">
+  <link href="css/ol.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body class="page-home">
@@ -19,13 +31,7 @@
   </header>
   <div class="container-fluid">
     <div id="svg-container" class="row">
-      <?php 
-        $fileName = 'A_alinh.svg';
-        if (file_exists('destination.svg')) {
-          $fileName = 'destination.svg';
-        }
-        echo(file_get_contents($fileName));
-      ?>
+      
     </div>
   </div>
 
@@ -71,13 +77,15 @@
     </div>
   </div>
 
-  <script src="js/svg-pan-zoom.js"></script>
   <script src="js/jquery-3.5.1.min.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/fs-modal.min.js"></script>
-  <script src="js/hammer.js"></script>
-  <script src="load.js"></script>
+  <script src="js/ol.js"></script>
+  <script type="text/javascript">
+    var svgPath = '<?php echo $svgPath ?>';
+  </script>
+  <script src="js/load.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css" type="text/css">
+    <style>
+        .map {
+            height: 800px;
+            width: 100%;
+        }
+        /*  .map:-webkit-full-screen {
+            height: 100%;
+            margin: 0;
+        }
+        
+        .map:-ms-fullscreen {
+            height: 100%;
+        }
+        
+        .map:fullscreen {
+            height: 100%;
+        } */
+        /* position the rotate control lower than usual */
+        
+        .ol-rotate {
+            top: 3em;
+        }
+        
+        #map {
+            background: black;
+        }
+        
+        .svg-layer rect:hover {
+            opacity: 4;
+            stroke: transparent;
+            stroke-width: 4px;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
+    <title>OpenLayers example</title>
+</head>
+
+<body>
+    <h2>My Map Helloooooooo</h2>
+    <div id="map" class="map"></div>
+
+
+    <script type="text/javascript">
+        const map = new ol.Map({
+            target: 'map',
+            view: new ol.View({
+                center: [0, 0],
+                extent: [-180, -90, 180, 90],
+                projection: 'EPSG:4326',
+                rotation: Math.PI / 6,
+                zoom: 4
+            }),
+        });
+
+        const svgContainer = document.createElement('div');
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'svg/ABCD_linh.svg');
+        xhr.addEventListener('load', function() {
+            const svg = xhr.responseXML.documentElement;
+            svgContainer.ownerDocument.importNode(svg);
+            svgContainer.appendChild(svg);
+        });
+        xhr.send();
+
+        const width = 2560;
+        const height = 1280;
+        const svgResolution = 360 / width;
+        svgContainer.style.width = width + 'px';
+        svgContainer.style.height = height + 'px';
+        svgContainer.style.transformOrigin = 'top left';
+        svgContainer.className = 'svg-layer';
+
+        map.addLayer(
+            new ol.layer.Layer({
+                render: function(frameState) {
+                    const scale = svgResolution / frameState.viewState.resolution;
+                    const center = frameState.viewState.center;
+                    const size = frameState.size;
+                    const cssTransform = ol.transform.composeCssTransform(
+                        size[0] / 2,
+                        size[1] / 2,
+                        scale,
+                        scale,
+                        frameState.viewState.rotation, -center[0] / svgResolution - width / 2,
+                        center[1] / svgResolution - height / 2
+                    );
+                    svgContainer.style.transform = cssTransform;
+                    svgContainer.style.opacity = this.getOpacity();
+                    return svgContainer;
+                },
+            })
+        );
+
+
+        /* 
+                var map = new ol.Map({
+                    target: 'map',
+                    layers: [
+                        new ol.layer.Tile({
+                            source: new ol.source.OSM()
+                        })
+                    ],
+                    view: new ol.View({
+                        center: ol.proj.fromLonLat([37.41, 8.82]),
+                        zoom: 4
+                    })
+                }); */
+
+
+
+        /*    const get_rotated_extent = (map, degrees) => {
+               const view = map.getView()
+               const extent = view.calculateExtent(map.getSize())
+               const geom = ol.geom.Polygon.fromExtent(extent)
+               const map_center = view.getCenter()
+               const rotation_in_radians = degrees * Math.PI / 180
+               geom.rotate(rotation_in_radians, map_center)
+               return geom.getExtent()
+           }
+           const rotated_extent = get_rotated_extent(map, 90)
+
+           const polygon_source = new ol.source.Vector()
+           const polygon_layer = new ol.layer.Vector({
+               source: polygon_source
+           })
+           map.addLayer(polygon_layer)
+           const polygon = new ol.Feature(ol.geom.Polygon.fromExtent(rotated_extent))
+           polygon_source.addFeature(polygon) */
+
+        //map.getView().setRotation(Math.PI / 2.6);
+    </script>
+</body>
+
+</html>
