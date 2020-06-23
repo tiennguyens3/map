@@ -87,16 +87,24 @@ $(function () {
       return false;
     }
 
-    var id = $('.selectpicker :selected').data('id');
-    var name = $('.selectpicker :selected').data('name');
-    var type = $('input[name="typeInput"]:checked').val();
+    const id = $('.selectpicker :selected').data('id');
+    const name = $('.selectpicker :selected').data('name');
+    const type = $('input[name="typeInput"]:checked').val();
+    const area = $('.selectpicker :selected').data('area');
+    const row = $('.selectpicker :selected').data('row');
 
     polyline.attr('id', id);
     polyline.attr('name', name);
     polyline.attr('type', type);
-
     polyline.append("<title>" + name + "</title>");
 
+    // Update parent's data, group
+    const parent = polyline.parent();
+    parent.attr('id', id);
+    parent.attr('area', area);
+    parent.attr('row', row);
+
+    // Reset input
     $('#idInput').val("");
     $('#nameInput').val("");
 
@@ -108,13 +116,22 @@ $(function () {
     $.ajax({
       url: 'update.php',
       type: 'post',
-      data: {id: id, male: type, svg: polyline.parent()[0].outerHTML},
+      data: {id: id, male: type, svg: parent[0].outerHTML},
       success: function(data) {
-        var parent = polyline.parent();
         parent.find('text').html(data);
+        onUpdatePlot();
       }
     });
   });
+
+  //const plots = [];
+  const onUpdatePlot = function() {
+    const parent = polyline.parent();
+    const id = parent.attr('id');
+
+    const plot = $('<input type="hidden" name="plots['+id+']"></input>').val(parent[0].outerHTML);
+    $('#submitForm').append(plot);
+  }
 
   // On save new svg
   $('#saveBtn').click(function(event) {

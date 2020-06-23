@@ -8,6 +8,10 @@ try {
     $id = isset($_POST['id']) ? $_POST['id'] : 0;
     $isMale = isset($_POST['male']) && 'male' == $_POST['male'] ? 1 : 0;
 
+    if (!$id) {
+        throw new PDOException();
+    }
+
     $sql = "select * from nguoimat where id_nguoimat=:id";
     $sth = $dbh->prepare($sql);
     $sth->execute(array(':id' => $id));
@@ -16,20 +20,6 @@ try {
     $sql = "update nguoimat set gioitinh=:gioitinh where id_nguoimat=:id";
     $sth = $dbh->prepare($sql);
     $sth->execute(array(':id' => $id, ':gioitinh' => $isMale));
-
-    $sql = "select * from svgplot where userId=:id";
-    $sth = $dbh->prepare($sql);
-    $sth->execute(array(':id' => $id));
-    $row = $sth->fetch();
-
-    $svg = isset($_POST['svg']) ? $_POST['svg'] : '';
-    if ($row) {
-        $sql = "update svgplot set svg=:svg where userId=:userId";
-    } else {
-        $sql = "insert into svgplot(userId, svg) values (:userId, :svg)";
-    }
-    $sth = $dbh->prepare($sql);
-    $sth->execute(array(':userId' => $id, ':svg' => $svg));
 
 } catch (PDOException $e) {
     echo 'NO';

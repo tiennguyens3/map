@@ -85,7 +85,7 @@ if (file_exists($destinationPath)) {
   <script type="text/javascript">
     const svgPath = '<?php echo $svgPath ?>';
   </script>
-  <script src="js/load.js"></script>
+  <script src="js/index.js"></script>
 </body>
 
 </html>

@@ -20,12 +20,35 @@ try {
     echo 'Connection failed: ' . $e->getMessage();
 }
 
+function handlePlot($id, $svg) {
+    global $dbh;
+    $sql = "select * from svgplot where userId=:id";
+    $sth = $dbh->prepare($sql);
+    $sth->execute(array(':id' => $id));
+    $row = $sth->fetch();
+
+    if ($row) {
+        $sql = "update svgplot set svg=:svg where userId=:userId";
+    } else {
+        $sql = "insert into svgplot(userId, svg) values (:userId, :svg)";
+    }
+    $sth = $dbh->prepare($sql);
+    $sth->execute(array(':userId' => $id, ':svg' => $svg));
+}
+
 if (isset($_POST['content'])) {
   $content = $_POST['content'];
 
   $fileName = 'svg/destination.svg';
   if ($content) {
     file_put_contents($fileName, $content);
+
+    $plots = isset($_POST['plots']) ? $_POST['plots'] : '';
+    if ($plots) {
+      foreach($plots as $id => $svg) {
+        handlePlot($id, $svg);
+      }
+    }
   } else {
     unlink($fileName);
   }
@@ -53,7 +76,7 @@ if (file_exists($destinationPath)) {
 <body class="page-home">
   <header>
     <h1 class="text-center">Thiết Lập Bản Đồ Đất Thánh Vinh Đức</h1>
-    <form method="post">
+    <form id="submitForm" method="post">
       <input type="hidden" id="content" name="content" />
       <button id="saveBtn" class="btn btn-primary">Save</button>
       <button id="reset" name="reset" class="btn btn-warning">Reset</button>
@@ -80,7 +103,7 @@ if (file_exists($destinationPath)) {
             <?php 
               foreach ($result as $value) {
                 $text = "Khu vực: " . $value[2] . "- Hàng: " . $value[3] . "- STT: " . $value[4] . ", " . $value[1];
-                echo "<option data-id=".$value[0]." data-name='".$value[1]."'>" . $text . "</option>";
+                echo "<option data-area=".$value[2]." data-row=".$value[3]." data-id=".$value[0]." data-name='".$value[1]."'>" . $text . "</option>";
               }
             ?>
           </select>
