@@ -24,6 +24,12 @@ if (file_exists($destinationPath)) {
 <body class="page-home">
   <header>
     <h1 class="text-center">Bản Đồ Đất Thánh Vinh Đức</h1>
+    <ul>
+      <li><a target="_blank" href="map.php?area=7&name=<?php echo urlencode('Khu A') ?>">Khu A</a></li>
+      <li><a target="_blank" href="map.php?area=8&name=<?php echo urlencode('Khu B') ?>"">Khu B</a></li>
+      <li><a target="_blank" href="map.php?area=9&name=<?php echo urlencode('Khu C') ?>"">Khu C</a></li>
+      <li><a target="_blank" href="map.php?area=10&name=<?php echo urlencode('Khu D') ?>"">Khu D</a></li>
+    </ul>
     <form>
       <input id="txtName" type="text" placeholder="Enter name" />
       <button id="btnSearch" class="btn btn-primary">Search</button>

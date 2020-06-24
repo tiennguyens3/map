@@ -5,7 +5,15 @@ include 'config.php';
 try {
     $dbh = new PDO($dsn, $user, $password);
 
-    $sql = "select id_nguoimat, khuvuc, hang_khuvuc, thutu_nguoimat, tennguoimat from nguoimat";
+    $sql = "select 
+        id_nguoimat, 
+        kv.tenkhu as khuvuc, 
+        hang_khuvuc, 
+        thutu_nguoimat, 
+        tennguoimat 
+      from nguoimat nm
+      inner join khuvuc kv on kv.id_khu=nm.khuvuc";
+
     $result = [];
     foreach ($dbh->query($sql) as $value) {
       $result[$value['id_nguoimat']] = [

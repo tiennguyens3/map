@@ -2,19 +2,30 @@
 
 include 'config.php';
 
+const AREA_DEFAULT = 7;
+const NAME_DEFAULT = "Khu A";
+
+$area = isset($_GET['area']) ? $_GET['area'] : AREA_DEFAULT;
+$name = isset($_GET['name']) ? $_GET['name'] : NAME_DEFAULT;
+$svgPath = "svg/khu_". $area .".svg";
+
 try {
-    $dbh = new PDO($dsn, $user, $password);
+  $dbh = new PDO($dsn, $user, $password);
 
-    $sql = "select * from svgplot";
-    $sth = $dbh->prepare($sql);
-    $sth->execute();
-    $result = $sth->fetchAll();
+  $sql = "select 
+      p.id, 
+      svg 
+    from svgplot p 
+    inner join nguoimat nm on nm.id_nguoimat=p.userId
+    where nm.khuvuc=:area";
+
+  $sth = $dbh->prepare($sql);
+  $sth->execute(array(':area' => $area));
+  $result = $sth->fetchAll();
+
 } catch (PDOException $e) {
-    echo 'NO';
+  echo 'NO';
 }
-
-$area = "Khu 1";
-$svgPath = "svg/khu_1.svg";
 
 function callback($buffer) {
   global $svgPath;
@@ -102,14 +113,14 @@ ob_end_flush();
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bản Đồ Đất Thánh Vinh Đức <?php echo $area ?></title>
+  <title>Bản Đồ Đất Thánh Vinh Đức <?php echo $name ?></title>
   <link href="css/ol.css" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body class="page-home">
   <header>
-    <h1 class="text-center">Bản Đồ Đất Thánh Vinh Đức <?php echo $area ?></h1>
+    <h1 class="text-center">Bản Đồ Đất Thánh Vinh Đức <?php echo $name ?></h1>
   </header>
   <div class="container-fluid">
     <div id="map" class="row"></div>
