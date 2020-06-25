@@ -7,7 +7,8 @@ try {
 
     $sql = "select 
         id_nguoimat, 
-        kv.tenkhu as khuvuc, 
+        kv.tenkhu as khuvuc,
+        kv.id_khu as idkhuvuc,
         hang_khuvuc, 
         thutu_nguoimat, 
         tennguoimat 
@@ -16,7 +17,7 @@ try {
 
     $result = [];
     foreach ($dbh->query($sql) as $value) {
-      $result[$value['id_nguoimat']] = [
+      $result[$value['idkhuvuc']][$value['id_nguoimat']] = [
         $value['id_nguoimat'], 
         $value['tennguoimat'],
         $value['khuvuc'],
@@ -24,6 +25,18 @@ try {
         $value['thutu_nguoimat'],
       ];
     }
+
+    $sql = "select * from khuvuc";
+    $sth = $dbh->prepare($sql);
+    $sth->execute();
+    $areas = $sth->fetchAll();
+
+    $data = [];
+    if (isset($areas[0])) {
+      $areaId  = $areas[0]['id_khu'];
+      $data = isset($result[$areaId]) ? $result[$areaId] : [];
+    }
+
 } catch (PDOException $e) {
     echo 'Connection failed: ' . $e->getMessage();
 }
@@ -84,11 +97,19 @@ if (file_exists($destinationPath)) {
 <body class="page-home">
   <header>
     <h1 class="text-center">Thiết Lập Bản Đồ Đất Thánh Vinh Đức</h1>
-    <form id="submitForm" method="post">
+    <form id="submitForm" method="post" class="col-5">
       <input type="hidden" id="content" name="content" />
       <button id="saveBtn" class="btn btn-primary">Save</button>
       <button id="reset" name="reset" class="btn btn-warning">Reset</button>
     </form>
+    <div class="form-group col-md-2">
+      <label for="areaSelect">Chọn khu</label>
+      <select class="form-control" id="areaSelect">
+        <?php foreach ($areas as $area): ?>
+        <option value="<?php echo $area['id_khu'] ?>"><?php echo $area['tenkhu'] ?></option>
+        <?php endforeach ?>
+      </select>
+    </div>
   </header>
   <div class="container-fluid">
     <div id="svg-container" class="row">
@@ -109,7 +130,7 @@ if (file_exists($destinationPath)) {
         <div class="form-group">
           <select id="selectpicker" class="form-control selectpicker" data-live-search="true">
             <?php 
-              foreach ($result as $value) {
+              foreach ($data as $value) {
                 $text = "Khu vực: " . $value[2] . "- Hàng: " . $value[3] . "- STT: " . $value[4] . ", " . $value[1];
                 echo "<option data-area=".$value[2]." data-row=".$value[3]." data-id=".$value[0]." data-name='".$value[1]."'>" . $text . "</option>";
               }
@@ -150,6 +171,7 @@ if (file_exists($destinationPath)) {
   <script src="js/ol.js"></script>
   <script type="text/javascript">
     const svgPath = '<?php echo $svgPath ?>';
+    const data = <?php echo json_encode($result); ?>
   </script>
   <script src="js/editor.js"></script>
 </body>

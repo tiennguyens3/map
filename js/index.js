@@ -7,8 +7,15 @@ let polyline = null;
 let map = null;
 
 $(function () {
+  let interaction = new ol.interaction.DragRotateAndZoom();
   // Init map
   map = new ol.Map({
+      interactions: ol.interaction.defaults().extend([
+        interaction
+      ]),
+      controls: ol.control.defaults().extend([
+        new ol.control.FullScreen()
+      ]),
       target: 'svg-container',
       view: new ol.View({
           center: [0, 0],

@@ -1,7 +1,10 @@
 $(function () {
-
+  let interaction = new ol.interaction.DragRotateAndZoom();
   // Init map
   const map = new ol.Map({
+      interactions: ol.interaction.defaults().extend([
+        interaction
+      ]),
       target: 'svg-container',
       view: new ol.View({
           center: [0, 0],
@@ -124,7 +127,7 @@ $(function () {
     });
   });
 
-  //const plots = [];
+  // On update plot
   const onUpdatePlot = function() {
     const parent = polyline.parent();
     const id = parent.attr('id');
@@ -141,6 +144,20 @@ $(function () {
     $('#content').val(container.html());
 
     $('form').submit();
+  });
+
+  $('#areaSelect').change(function() {
+    let html = '';
+    const option = $(this).val();
+
+    $.each(data[option], function(index, value) {
+      html += "<option data-area=" + value[2] + " data-row=" + value[3] + " data-id=" + value[0] + " data-name='" + value[1] + "'>"
+      html += "Khu vực: " + value[2] + "- Hàng: " + value[3] + "- STT: " + value[4] + ", " + value[1];
+      html += "</option>";
+    });
+
+    $('#selectpicker').html(html);
+    $('#selectpicker').selectpicker('refresh');
   });
 
   // Init selectpicer
