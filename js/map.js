@@ -1,5 +1,12 @@
 $(function () {
+  const interaction = new ol.interaction.DragRotateAndZoom();
   const map = new ol.Map({
+      interactions: ol.interaction.defaults().extend([
+        interaction
+      ]),
+      controls: ol.control.defaults().extend([
+        new ol.control.FullScreen()
+      ]),
       target: 'map',
       view: new ol.View({
           center: [0, 0],

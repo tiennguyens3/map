@@ -7,7 +7,7 @@ let polyline = null;
 let map = null;
 
 $(function () {
-  let interaction = new ol.interaction.DragRotateAndZoom();
+  const interaction = new ol.interaction.DragRotateAndZoom();
   // Init map
   map = new ol.Map({
       interactions: ol.interaction.defaults().extend([

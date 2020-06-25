@@ -1,5 +1,5 @@
 $(function () {
-  let interaction = new ol.interaction.DragRotateAndZoom();
+  const interaction = new ol.interaction.DragRotateAndZoom();
   // Init map
   const map = new ol.Map({
       interactions: ol.interaction.defaults().extend([

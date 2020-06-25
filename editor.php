@@ -2,6 +2,8 @@
 
 include 'config.php';
 
+const REPLACE_ME = "[REPLACE_ME]";
+
 try {
     $dbh = new PDO($dsn, $user, $password);
 
@@ -37,24 +39,55 @@ try {
       $data = isset($result[$areaId]) ? $result[$areaId] : [];
     }
 
+    function handlePlot($id, $svg) {
+      global $dbh;
+      $sql = "select * from svgplot where userId=:id";
+      $sth = $dbh->prepare($sql);
+      $sth->execute(array(':id' => $id));
+      $row = $sth->fetch();
+  
+      if ($row) {
+          $sql = "update svgplot set svg=:svg where userId=:userId";
+      } else {
+          $sql = "insert into svgplot(userId, svg) values (:userId, :svg)";
+      }
+      $sth = $dbh->prepare($sql);
+      $sth->execute(array(':userId' => $id, ':svg' => $svg));
+    }
+
+    function generateSVG($area) {
+      global $dbh;
+      $fileName = "svg/template_" . $area . ".svg";
+      $content = file_get_contents($fileName);
+
+      $sql = "select 
+        p.id, 
+        svg 
+        from svgplot p 
+        inner join nguoimat nm on nm.id_nguoimat=p.userId
+        where nm.khuvuc=:area";
+
+      $sth = $dbh->prepare($sql);
+      $sth->execute(array(':area' => $area));
+      $result = $sth->fetchAll();
+
+      $fileTemp = "svg/temp.svg";
+      foreach($result as $value) {
+        file_put_contents($fileTemp, $value['svg'], FILE_APPEND);
+      }
+
+      $temp = file_get_contents($fileTemp);
+      $data = str_replace(REPLACE_ME, $temp, $content);
+
+      $fileName = "svg/khu_" . $area . ".svg";
+      file_put_contents($fileName, $data);
+
+      // Reset temp file
+      file_put_contents($fileTemp, "");
+    }
+
 } catch (PDOException $e) {
     echo 'Connection failed: ' . $e->getMessage();
-}
-
-function handlePlot($id, $svg) {
-    global $dbh;
-    $sql = "select * from svgplot where userId=:id";
-    $sth = $dbh->prepare($sql);
-    $sth->execute(array(':id' => $id));
-    $row = $sth->fetch();
-
-    if ($row) {
-        $sql = "update svgplot set svg=:svg where userId=:userId";
-    } else {
-        $sql = "insert into svgplot(userId, svg) values (:userId, :svg)";
-    }
-    $sth = $dbh->prepare($sql);
-    $sth->execute(array(':userId' => $id, ':svg' => $svg));
 }
 
 if (isset($_POST['content'])) {
@@ -69,6 +102,11 @@ if (isset($_POST['content'])) {
       foreach($plots as $id => $svg) {
         handlePlot($id, $svg);
       }
+    }
+
+    $area = isset($_POST['area']) ? $_POST['area'] : 0;
+    if ($area) {
+      generateSVG($area);
     }
   } else {
     unlink($fileName);
@@ -97,19 +135,19 @@ if (file_exists($destinationPath)) {
 <body class="page-home">
   <header>
     <h1 class="text-center">Thiết Lập Bản Đồ Đất Thánh Vinh Đức</h1>
-    <form id="submitForm" method="post" class="col-5">
+    <form id="submitForm" method="post" class="col-2">
+      <div class="form-group">
+        <label for="areaSelect">Chọn khu</label>
+        <select class="form-control" id="areaSelect" name="area">
+          <?php foreach ($areas as $area): ?>
+          <option value="<?php echo $area['id_khu'] ?>"><?php echo $area['tenkhu'] ?></option>
+          <?php endforeach ?>
+        </select>
+      </div>
       <input type="hidden" id="content" name="content" />
       <button id="saveBtn" class="btn btn-primary">Save</button>
       <button id="reset" name="reset" class="btn btn-warning">Reset</button>
     </form>
-    <div class="form-group col-md-2">
-      <label for="areaSelect">Chọn khu</label>
-      <select class="form-control" id="areaSelect">
-        <?php foreach ($areas as $area): ?>
-        <option value="<?php echo $area['id_khu'] ?>"><?php echo $area['tenkhu'] ?></option>
-        <?php endforeach ?>
-      </select>
-    </div>
   </header>
   <div class="container-fluid">
     <div id="svg-container" class="row">
