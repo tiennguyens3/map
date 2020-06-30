@@ -150,7 +150,7 @@ if (file_exists($destinationPath)) {
     </form>
   </header>
   <div class="container-fluid">
-    <div id="svg-container" class="row map">
+    <div id="svg-container" class="row">
     </div>
   </div>
 
