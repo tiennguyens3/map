@@ -63,7 +63,7 @@ $(function () {
 
   // Disable selected options.
   const disableSelecteOptions = function() {
-    $('#svg-container .plotbound .smallplot').each(function() {
+    $('#svg-container rect[id]').each(function() {
       $('option[data-id="'+ $(this).attr('id') +'"]').attr('disabled', true);
     });
   };
@@ -161,6 +161,7 @@ $(function () {
     });
 
     $('#selectpicker').html(html);
+    disableSelecteOptions();
     $('#selectpicker').selectpicker('refresh');
   });
 
