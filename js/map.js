@@ -23,6 +23,9 @@ controls: ol.control.defaults().extend([
       const svg = xhr.responseXML.documentElement;
       svgContainer.ownerDocument.importNode(svg);
       svgContainer.appendChild(svg);
+
+      // SVG events
+      plotDetail();
   });
   xhr.send();
 
