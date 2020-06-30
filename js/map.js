@@ -3,6 +3,8 @@ jQuery.expr[':'].contains = function(a, i, m) {
     .indexOf(m[3].toUpperCase()) >= 0;
 };
 
+let polyline = null;
+
 $(function(){
 
   var interaction = new ol.interaction.DragRotateAndZoom();
