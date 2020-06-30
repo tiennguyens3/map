@@ -25,9 +25,34 @@ $svgPath = "svg/khu_". $area .".svg";
 <body class="page-home">
   <header>
     <h1 class="text-center">Bản Đồ Đất Thánh Vinh Đức <?php echo $name ?></h1>
+    <form class="col-4">
+      <input id="txtName" type="text" placeholder="Enter name" />
+      <button id="btnSearch" class="btn btn-primary">Search</button>
+    </form>
   </header>
   <div class="container-fluid">
     <div id="map" class="row"></div>
+  </div>
+
+  <div class="modal modal-fullscreen fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Thông tin</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group" id="groupData">
+            
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="modal modal-fullscreen fade" id="biaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -58,7 +83,7 @@ $svgPath = "svg/khu_". $area .".svg";
   <script type="text/javascript">
     const svgPath = '<?php echo $svgPath ?>';
   </script>
-  <script src="js/map.js"></script>
+  <script src="js/index.js"></script>
 </body>
 
 </html>

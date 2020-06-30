@@ -124,7 +124,7 @@ $(function () {
     $.ajax({
       url: 'info.php',
       type: 'post',
-      data: {'id': polyline.attr('id')},
+      data: {'id': polyline.parent().attr('id')},
       success: function(data) {
         if ('NO' == data) {
           return false;
