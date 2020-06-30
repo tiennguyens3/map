@@ -83,7 +83,7 @@ $svgPath = "svg/khu_". $area .".svg";
   <script type="text/javascript">
     const svgPath = '<?php echo $svgPath ?>';
   </script>
-  <script src="js/index.js"></script>
+  <script src="js/map.js"></script>
 </body>
 
 </html>

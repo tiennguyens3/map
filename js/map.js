@@ -1,3 +1,8 @@
+jQuery.expr[':'].contains = function(a, i, m) {
+  return jQuery(a).text().toUpperCase()
+    .indexOf(m[3].toUpperCase()) >= 0;
+};
+
 $(function(){
 
   var interaction = new ol.interaction.DragRotateAndZoom();
@@ -80,5 +85,47 @@ controls: ol.control.defaults().extend([
       });
     });
   }
+
+  $('#btnSearch').click(function(event) {
+    event.preventDefault();
+
+    if (polyline) {
+      polyline.removeClass('plot-selected');
+      polyline = null;
+    }
+
+    const name = $('#txtName').val();
+    if (!name) {
+      return false;
+    }
+
+    polyline = $("rect:contains('"+$('#txtName').val()+"')");
+    if (!polyline.length) {
+      return false;
+    }
+
+    polyline.addClass('plot-selected');
+
+    // Zoom
+    const x = polyline.attr('x');
+    const y = polyline.attr('y');
+
+    const view = map.getView();
+    //view.fit([x,y]);
+
+    // Show information
+    $.ajax({
+      url: 'info.php',
+      type: 'post',
+      data: {'id': polyline.parent().attr('id')},
+      success: function(data) {
+        if ('NO' == data) {
+          return false;
+        }
+        $('#groupData').html(data);
+        $('#infoModal').modal('show');
+      }
+    });
+  });
 
 });
