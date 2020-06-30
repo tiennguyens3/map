@@ -3,14 +3,18 @@ $(function () {
   // Init map
   const map = new ol.Map({
       interactions: ol.interaction.defaults().extend([
-        interaction
+            interaction
       ]),
+      controls: ol.control.defaults().extend([
+        new ol.control.FullScreen()
+    ]),
       target: 'svg-container',
       view: new ol.View({
           center: [0, 0],
-          extent: [-180, -90, 180, 90],
+          extent: [-3600, -1800, 3600, 1800],
           projection: 'EPSG:4326',
-          zoom: 1
+          rotation: Math.PI / 90,
+          zoom: 4
       }),
   });
 
@@ -28,8 +32,8 @@ $(function () {
   });
   xhr.send();
 
-  const width = 1920;
-  const height = 1200;
+  const width = 1280;
+  const height = 2560;
   const svgResolution = 360 / width;
   svgContainer.style.width = width + 'px';
   svgContainer.style.height = height + 'px';
@@ -59,7 +63,7 @@ $(function () {
 
   // Disable selected options.
   const disableSelecteOptions = function() {
-    $('#svg-container rect[id]').each(function() {
+    $('#svg-container .plotbound .smallplot').each(function() {
       $('option[data-id="'+ $(this).attr('id') +'"]').attr('disabled', true);
     });
   };
@@ -67,7 +71,7 @@ $(function () {
   // On click plot
   let polyline = null;
   const onClickPlot = function() {
-    $('rect.st27').click(function() {
+    $(".plotbound, .smallplot").click(function() {
       polyline = $(this);
 
       if (polyline.attr('id')) {
@@ -121,7 +125,7 @@ $(function () {
       type: 'post',
       data: {id: id, male: type, svg: parent[0].outerHTML},
       success: function(data) {
-        parent.find('text').html(data);
+        parent.find('.plotinfo').html(data);
         onUpdatePlot();
       }
     });

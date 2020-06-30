@@ -57,7 +57,7 @@ try {
 
     function generateSVG($area) {
       global $dbh;
-      $fileName = "svg/template_" . $area . ".svg";
+      $fileName = "svg/template.svg";
       $content = file_get_contents($fileName);
 
       $sql = "select 
@@ -71,7 +71,7 @@ try {
       $sth->execute(array(':area' => $area));
       $result = $sth->fetchAll();
 
-      $fileTemp = "svg/temp.svg";
+      $fileTemp = "svg/cache.svg";
       foreach($result as $value) {
         file_put_contents($fileTemp, $value['svg'], FILE_APPEND);
       }
@@ -150,7 +150,7 @@ if (file_exists($destinationPath)) {
     </form>
   </header>
   <div class="container-fluid">
-    <div id="svg-container" class="row">
+    <div id="svg-container" class="row map">
     </div>
   </div>
 

@@ -7,20 +7,24 @@ let polyline = null;
 let map = null;
 
 $(function () {
-  const interaction = new ol.interaction.DragRotateAndZoom();
+
+  var interaction = new ol.interaction.DragRotateAndZoom();
+  var extent = [-3600, -1800, 3600, 1800];
   // Init map
   map = new ol.Map({
       interactions: ol.interaction.defaults().extend([
-        interaction
-      ]),
+            interaction
+        ]),
       controls: ol.control.defaults().extend([
-        new ol.control.FullScreen()
-      ]),
+            new ol.control.FullScreen()
+        ]),
       target: 'svg-container',
       view: new ol.View({
           center: [0, 0],
+          extent: extent,
           projection: 'EPSG:4326',
-          zoom: 1
+          rotation: Math.PI / 90,
+          zoom: 4
       }),
   });
 
@@ -37,8 +41,8 @@ $(function () {
   });
   xhr.send();
 
-  const width = 1920;
-  const height = 1200;
+  const width = 1280;
+  const height = 2560;
   const svgResolution = 360 / width;
   svgContainer.style.width = width + 'px';
   svgContainer.style.height = height + 'px';
@@ -67,7 +71,7 @@ $(function () {
   );
 
   const plotDetail = function() {
-    $('rect.st27').click(function() {
+    $(".plotbound, .smallplot").click(function() {
       let rect = $(this);
       if (!rect.attr('id')) {
         return false;

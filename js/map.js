@@ -1,17 +1,17 @@
-$(function () {
-  const interaction = new ol.interaction.DragRotateAndZoom();
+$(function(){
+
+  var interaction = new ol.interaction.DragRotateAndZoom();
   const map = new ol.Map({
-      interactions: ol.interaction.defaults().extend([
-        interaction
-      ]),
-      controls: ol.control.defaults().extend([
-        new ol.control.FullScreen()
-      ]),
+    interactions: ol.interaction.defaults().extend([interaction]),
+controls: ol.control.defaults().extend([
+      new ol.control.FullScreen()
+  ]),
       target: 'map',
       view: new ol.View({
           center: [0, 0],
-          extent: [-180, -90, 180, 90],
+          extent: [-3600, -1800, 3600, 1800],
           projection: 'EPSG:4326',
+          rotation: Math.PI / 90,
           zoom: 1
       }),
   });
@@ -26,8 +26,8 @@ $(function () {
   });
   xhr.send();
 
-  const width = 1920;
-  const height = 1200;
+  const width = 1280;
+  const height = 2560;
   const svgResolution = 360 / width;
   svgContainer.style.width = width + 'px';
   svgContainer.style.height = height + 'px';
@@ -54,5 +54,28 @@ $(function () {
       }
     })
   );
+
+  const plotDetail = function() {
+    $(".plotbound, .smallplot").click(function() {
+      let rect = $(this);
+      if (!rect.attr('id')) {
+        return false;
+      }
+  
+      // Show information
+      $.ajax({
+        url: 'detail.php',
+        type: 'post',
+        data: {'id': rect.attr('id')},
+        success: function(data) {
+          if ('NO' == data) {
+            return false;
+          }
+          $('#detailBody').html(data);
+          $('#biaModal').modal('show');
+        }
+      });
+    });
+  }
 
 });

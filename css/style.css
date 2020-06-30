@@ -1,19 +1,19 @@
 #svg-container {
-  width: 1024px;
-  height: 800px;
+  width: 100%;
+  height: 100%;
   margin: auto;
 }
 
-rect[type="male"] {
+.plotbound[type="male"] {
   fill: red;
 }
 
-rect[type="female"] {
+.plotbound[type="female"] {
   fill: blue;
 }
 
-rect.st27:hover {
-  fill: blue;
+.plotbound:hover, .smallplot:hover {
+  fill: greenyellow;
 }
 
 .plot-selected {
@@ -36,10 +36,47 @@ rect.st27:hover {
   and (-webkit-min-device-pixel-ratio: 3) { 
     #svg-container {
       width: 100%;
-      height: 400px;
+      height: 100%;
     }
 
     #detailBody {
       width: 343px;
     }
+}
+.map:-webkit-full-screen {
+    height: 100%;
+    margin: 0;
+}
+
+.map:-ms-fullscreen {
+    height: 100%;
+}
+
+.map:fullscreen {
+    height: 100%;
+}
+
+#map {
+  width: 1260px;
+  height: 1260px;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.map {
+  position: absolute;
+  width: calc(100% *4/3);
+  height: calc(100% *4/3);
+  left: calc(100% - 100% *4/3);
+  top: calc(100% - 100% *4/3);
+}
+
+.ol-rotate {
+    top: 3em;
 }

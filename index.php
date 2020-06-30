@@ -7,6 +7,22 @@ if (file_exists($destinationPath)) {
   $svgPath = $destinationPath;
 }
 
+try {
+  $dbh = new PDO($dsn, $user, $password);
+
+  $sql = "select 
+      id_khu,
+      tenkhu 
+    from khuvuc";
+
+  $sth = $dbh->prepare($sql);
+  $sth->execute();
+  $result = $sth->fetchAll();
+
+} catch (PDOException $e) {
+  echo 'NO';
+}
+
 ?>
 
 <html lang="en">
@@ -25,10 +41,9 @@ if (file_exists($destinationPath)) {
   <header>
     <h1 class="text-center">Bản Đồ Đất Thánh Vinh Đức</h1>
     <ul>
-      <li><a href="map.php?area=7&name=<?php echo urlencode('Khu A') ?>">Khu A</a></li>
-      <li><a href="map.php?area=8&name=<?php echo urlencode('Khu B') ?>"">Khu B</a></li>
-      <li><a href="map.php?area=9&name=<?php echo urlencode('Khu C') ?>"">Khu C</a></li>
-      <li><a href="map.php?area=10&name=<?php echo urlencode('Khu D') ?>"">Khu D</a></li>
+      <?php foreach($result as $value): ?>
+      <li><a href="map.php?area=<?php echo $value['id_khu'] ?>&name=<?php echo urlencode($value['tenkhu']); ?>"><?php echo $value['tenkhu']; ?></a></li>
+      <?php endforeach; ?>
     </ul>
     <form class="col-4">
       <input id="txtName" type="text" placeholder="Enter name" />

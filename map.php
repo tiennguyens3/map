@@ -17,6 +17,7 @@ $svgPath = "svg/khu_". $area .".svg";
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bản Đồ Đất Thánh Vinh Đức <?php echo $name ?></title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
   <link href="css/ol.css" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -31,6 +32,7 @@ $svgPath = "svg/khu_". $area .".svg";
 
   <script src="js/jquery-3.5.1.min.js"></script>
   <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
   <script src="js/ol.js"></script>
   <script type="text/javascript">
     const svgPath = '<?php echo $svgPath ?>';
